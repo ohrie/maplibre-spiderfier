@@ -1,7 +1,7 @@
 {
-  "name": "mapboxgl-spiderifier",
-  "version": "1.0.10",
-  "description": "Spiderify markers on mapbox-gl using marker overlays.",
+  "name": "maplibregl-spiderfier",
+  "version": "1.0.11",
+  "description": "Spiderify markers on maplibre-gl using marker overlays.",
   "main": "index.js",
   "style": "index.css",
   "directories": {
@@ -13,18 +13,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mimio/mapboxgl-spiderifier.git"
+    "url": "git+https://github.com/ohrie/maplibre-spiderfier.git"
   },
   "keywords": [
-    "mapboxgl",
+    "maplibregl",
     "spiderfy"
   ],
-  "author": "bewithjonam",
+  "author": "ohrie",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mimio/mapboxgl-spiderifier/issues"
+    "url": "https://github.com/ohrie/maplibre-spiderfier/issues"
   },
-  "homepage": "https://github.com/mimio/mapboxgl-spiderifier#readme",
+  "homepage": "https://github.com/ohrie/maplibre-spiderfier#readme",
   "devDependencies": {
     "eslint": "^4.19.1"
   }

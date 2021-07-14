@@ -1,16 +1,15 @@
-# mapboxgl-spiderifier
+# MapLibre Spiderfier
 
-Spiderify markers on mapbox-gl using marker overlays. Note it does not create the spiderfication in the canvas but on a overlay on top of the canvas. This uses mapboxgl.Marker to create markers and spider legs.
+> Note: This repository and README is original from https://github.com/bewithjonam/mapboxgl-spiderifier and was adapted to can be used with MapLibre GL JS
+
+Spiderify markers on maplibre-gl using marker overlays. Note it does not create the spiderfication in the canvas but on a overlay on top of the canvas. This uses mapboxgl.Marker to create markers and spider legs.
 
 Spiral/Circle positioning logic taken from and credits goes to https://github.com/jawj/OverlappingMarkerSpiderfier.
 
-## Examples:
+## Examples
  - https://bewithjonam.github.io/mapboxgl-spiderifier/docs/index.html
 
-## Note:
-Mapboxgl-js has exposed getClusterLeaves/getClusterChildren (from supercluster) in version [v0.47.0](https://github.com/mapbox/mapbox-gl-js/releases/tag/v0.47.0). Thereby, now we can get the features within a cluster from mapboxgl and spiderfy them using this library.
-
-## Usage:
+## Usage
 
 #### Simple Spiderfication of features
 ```js
@@ -21,14 +20,14 @@ var features = [
   {id: 3, type: 'cab', color: 'orange'},
   {id: 4, type: 'train', color: 'red'}
 ];
-var map = new mapboxgl.Map({
+var map = new maplibre.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v9',
     center: [-74.50, 40],
     zoom: 9
   });
 
-var spiderifier = new MapboxglSpiderifier(map, {
+var spiderifier = new MaplibreglSpiderifier(map, {
   	onClick: function(e, spiderLeg){
     	console.log('Clicked on ', spiderLeg);
     },
@@ -44,7 +43,7 @@ map.on('click', function(){
   spiderifier.unspiderfy();
 });
 ```
-### Getting features in a cluster from mapboxgl and spiderfying them
+### Getting features in a cluster from maplibre and spiderfying them
 Refer [Example 3](https://bewithjonam.github.io/mapboxgl-spiderifier/docs/example-mapbox-gl-cluster-spiderfy.html)
 ```
 map.on('style.load', function() {
@@ -81,7 +80,7 @@ function mouseClick(e) {
 
 #### Custom Pins With popup:
 ```js
-var spiderifier = new MapboxglSpiderifier(map, {
+var spiderifier = new MaplibreglSpiderifier(map, {
     customPin: true,
     initializeLeg: function(spiderLeg) {
       var $spiderPinCustom = $('<div>', {class: 'spider-point-circle'});
@@ -96,14 +95,14 @@ var spiderifier = new MapboxglSpiderifier(map, {
         'opacity': 0.8
       });
 
-      var popup = new mapboxgl.Popup({
+      var popup = new maplibregl.Popup({
         closeButton: true,
         closeOnClick: false,
-        offset: MapboxglSpiderifier.popupOffsetForSpiderLeg(spiderLeg)
+        offset: MaplibreglSpiderifier.popupOffsetForSpiderLeg(spiderLeg)
       });
 
       popup.setHTML('Feature type is ' + spiderLeg.feature.type);
-      spiderLeg.mapboxMarker.setPopup(popup);
+      spiderLeg.maplibreMarker.setPopup(popup);
 
       $(spiderLeg.elements.container)
         .on('mouseenter', function(){
@@ -120,11 +119,11 @@ var spiderifier = new MapboxglSpiderifier(map, {
 
 #### Options
 ```js
-new MapboxglSpiderifier(map, options)
+new MaplibreglSpiderifier(map, options)
 ```
 
-  Constructs a mapboxgl spiderifier.
-  - `map` *(mapbox gl map mandatory)*.
+  Constructs a maplibregl spiderifier.
+  - `map` *(maplibre gl map mandatory)*.
   - `options` *(object optional)*
     - `options.animate` **(boolean default: false)**
     - `options.animationSpeed` **(number default: 200)** number in milliseconds (animation speed)
@@ -148,7 +147,7 @@ spideifier.each (iterator) function.
       line: <DomElement>,
       pin: <DomElement>,
     },
-    mapboxMarker: <mapboxgl.Marker instance>,
+    maplibreMarker: <maplibregl.Marker instance>,
     params:{
       x: <number horizontal offset of pin from the center of spider>,
       y: <number vertical offset of pin from the center of spider>,
@@ -163,71 +162,10 @@ spideifier.each (iterator) function.
   - ```each(function(spiderLeg) {...} )``` Iterates over the currently spiderfied legs.
     -  ```function(spiderLeg)``` Function gets called once for every spider leg.
   - ```spiderfy(latLng, features)``` Spiderfies and displays given markers on the specified lat lng.
-    - ```latLng```  new mapboxgl.LngLat(-122.420679, 37.772537); OR [-122.420679, 37.772537];
+    - ```latLng```  new maplibregl.LngLat(-122.420679, 37.772537); OR [-122.420679, 37.772537];
     - ```features``` array of plain objects.
   - ```unspiderfy()``` Unspiderfies markers, if any spiderfied already.
 
-  - ```MapboxglSpiderifier.popupOffsetForSpiderLeg(spiderLeg)``` returns an offset object that can be
-  passed to mapboxgl's popup so that the popup will be positioned next to the pin rather than the center
+  - ```MaplibreglSpiderifier.popupOffsetForSpiderLeg(spiderLeg)``` returns an offset object that can be
+  passed to maplibregl's popup so that the popup will be positioned next to the pin rather than the center
   of the spider.
-
-## ChangeLog:
-
-1.0.8 -
-  - MapboxglSpiderfier -> MapboxglSpider***i***fier ;)
-  - options.initializeMarker(markerObject) -> options.initializeLeg(spiderLeg)
-```js
-  // Old:
-  initializeMarker(markerObject) {
-    // markerObject => {
-    //   marker: {...}, // changed to feature
-    //   elements: {
-    //     parent: <...>,
-    //     line: <...>,
-    //     marker: <...>, // changed to pin
-    //   },
-    //   "mapboxMarker":{...},
-    //   "spiderParam":{
-    //     "x":-4.373587244338389,
-    //     "y":14.3482310622655,
-    //     "angle":1.8666666666666667,
-    //     "legLength":15,
-    //     "index":0
-    //   }
-    // }
-    // ...
-  }
-  // New:
-  initializeLeg(spiderLeg) {
-    // spiderLeg => {
-    //   feature: {...},
-    //   elements: {
-    //     container: <...>,
-    //     line: <...>,
-    //     pin: <...>,
-    //   },
-    //   "mapboxMarker":{...},
-    //   "params":{
-    //     "x":-4.373587244338389,
-    //     "y":14.3482310622655,
-    //     "angle":1.8666666666666667,
-    //     "legLength":15,
-    //     "index":0
-    //   }
-    // }
-    // ...
-  }
-
-  // Old
-  // .spidered-marker
-  // | - .line-div
-  // | - .icon-div
-
-  // New
-  // .spider-leg
-  // | - .spider-leg-line
-  // | - .spider-leg-pin
-
-  Moving ./lib/mapbox-gl-spiderifier.css to ./index.css
-  Moving ./lib/mapbox-gl-spiderifier.js to ./index.js
-```
