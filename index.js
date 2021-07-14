@@ -1,13 +1,13 @@
 (function(root, factory) {
   if (typeof exports === 'object' && typeof module !== 'undefined') {
-    module.exports = factory(require('mapbox-gl'));
+    module.exports = factory(require('maplibre-gl'));
   } else if (typeof define === 'function' && define.amd) {
-    define(['MapboxglSpiderifier'], factory);
+    define(['MaplibreglSpiderifier'], factory);
   } else  {
-    root.MapboxglSpiderifier = factory(root.mapboxgl);
+    root.MaplibreglSpiderifier = factory(root.maplibregl);
   }
-}(this, function(mapboxgl) {
-  function MapboxglSpiderifier(map, userOptions) {
+}(this, function(maplibregl) {
+  function MaplibreglSpiderifier(map, userOptions) {
     var util = {
         each: eachFn,
         map: mapFn,
@@ -55,16 +55,16 @@
       spiderLegs = util.map(features, function (feature, index) {
         var spiderLegParam = spiderLegParams[index];
         var elements = createMarkerElements(spiderLegParam, feature);
-        var mapboxMarker;
+        var maplibreMarker;
         var spiderLeg;
 
-        mapboxMarker = new mapboxgl.Marker(elements.container)
+        maplibreMarker = new maplibregl.Marker(elements.container)
           .setLngLat(latLng);
 
         spiderLeg = {
           feature: feature,
           elements: elements,
-          mapboxMarker: mapboxMarker,
+          maplibreMarker: maplibreMarker,
           param: spiderLegParam
         };
 
@@ -78,7 +78,7 @@
       });
 
       util.each(spiderLegs.reverse(), function (spiderLeg) {
-        spiderLeg.mapboxMarker.addTo(map);
+        spiderLeg.maplibreMarker.addTo(map);
       });
 
       if (options.animate) {
@@ -99,10 +99,10 @@
           spiderLeg.elements.container.style['transitionDelay'] = ((options.animationSpeed / 1000) / previousSpiderLegs.length * index) + 's';
           spiderLeg.elements.container.className += ' exit';
           setTimeout(function () {
-            spiderLeg.mapboxMarker.remove();
+            spiderLeg.maplibreMarker.remove();
           }, options.animationSpeed + 100); //Wait for 100ms more before clearing the DOM
         } else {
-          spiderLeg.mapboxMarker.remove();
+          spiderLeg.maplibreMarker.remove();
         }
       });
       previousSpiderLegs = [];
@@ -210,10 +210,10 @@
     }
   }
 
-  // Returns Offset option for mapbox poup, so that the popup for pins in the spider
+  // Returns Offset option for maplibre poup, so that the popup for pins in the spider
   // appears next to the pin, rather than at the center of the spider.
   // offset: <number> Offset of the popup from the pin.
-  MapboxglSpiderifier.popupOffsetForSpiderLeg = function popupOffsetForSpiderLeg(spiderLeg, offset){
+  MaplibreglSpiderifier.popupOffsetForSpiderLeg = function popupOffsetForSpiderLeg(spiderLeg, offset){
     var pinOffsetX = spiderLeg.param.x;
     var pinOffsetY = spiderLeg.param.y;
 
@@ -234,5 +234,5 @@
     return [offset[0]+ (variantX || 0), offset[1]+ (variantY || 0)];
   }
 
-  return MapboxglSpiderifier;
+  return MaplibreglSpiderifier;
 }));
