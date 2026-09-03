@@ -5,14 +5,14 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css">
+  <link href="https://unpkg.com/maplibre-gl@^5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="../index.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.js"></script>
-  <script type="text/javascript" src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/maplibre-gl@^5.1.0/dist/maplibre-gl.js"></script>
   <script type="text/javascript" src="../index.js"></script>
-  <title>Mapbox gl spiderifier Custom markers</title>
+  <title>Maplibre gl spiderifier Custom markers</title>
   <style type="text/css">
     #map {
       width: 100%;
@@ -42,16 +42,15 @@
       }
     };
 
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic29jcmF0YSIsImEiOiJjaXJxc2wzam0waGU5ZmZtODhqd2ttamdxIn0.1ZQEByXoDD7fGIa9lUHIqg';
 
     window.onload=function(){
-      var map = new mapboxgl.Map({
+      var map = new maplibregl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v9',
+        style: 'https://demo.tegola.io/styles/hot-osm.json',
         center: [-74.50, 40],
         zoom: 7,
       });
-      var spiderifier = new MapboxglSpiderifier(map, {
+      var spiderifier = new MaplibreglSpiderifier(map, {
         animate: true,
         animationSpeed: 200,
         customPin: true,
@@ -73,16 +72,17 @@
 
         $(pinElem)
           .on('mouseenter', function(){
-            popup = new mapboxgl.Popup({
+            
+            popup = new maplibregl.Popup({
               closeButton: true,
               closeOnClick: false,
-              offset: MapboxglSpiderifier.popupOffsetForSpiderLeg(spiderLeg)
+              offset: MaplibreglSpiderifier.popupOffsetForSpiderLeg(spiderLeg)
             });
-
+            console.log(popup)
             popup.setHTML('Icon used is <b>fa-' + feature.type+'</b>')
               .addTo(map)
 
-            spiderLeg.mapboxMarker.setPopup(popup);
+            spiderLeg.maplibreMarker.setPopup(popup);
           })
           .on('mouseleave', function(){
             if(popup){
@@ -161,7 +161,7 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">MapboxglSpiderifier</a>
+        <a class="navbar-brand" href="index.html">MaplibreglSpiderifier</a>
       </div>
     </div>
   </nav>

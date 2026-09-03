@@ -58,7 +58,7 @@
         var maplibreMarker;
         var spiderLeg;
 
-        maplibreMarker = new maplibregl.Marker(elements.container)
+        maplibreMarker = new maplibregl.Marker({ element : elements.container })
           .setLngLat(latLng);
 
         spiderLeg = {
@@ -156,7 +156,7 @@
         pinElem = document.createElement('div'),
         lineElem = document.createElement('div');
 
-      containerElem.className = 'spider-leg-container' + ( options.animate ? ' animate initial ' : ' ');
+      containerElem.className = 'spider-leg-container' + ( options.animate ? ' animate initial ' : '');
       lineElem.className = 'spider-leg-line';
       pinElem.className = 'spider-leg-pin' + (options.customPin ? '' : ' default-spider-pin');
 
